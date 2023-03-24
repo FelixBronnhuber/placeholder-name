@@ -1,7 +1,7 @@
 ---
 name: User Story
 about: Neue User Story erstellen
-title: ''
+title: "[USER STORY]"
 labels: ''
 assignees: ''
 
