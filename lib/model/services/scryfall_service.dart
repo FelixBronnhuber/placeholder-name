@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:placeholder_name/model/api/api_response.dart';
 
 class ScryfallService
 {
