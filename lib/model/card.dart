@@ -1,3 +1,6 @@
+import 'card_face.dart';
+import 'image_uris.dart';
+
 class Card {
   final String id;
   final String uri;
@@ -40,69 +43,5 @@ class Card {
         frame: json['frame'].toString(),
         imageURIS: imageURIS,
         cardFaces: cardFaces);
-  }
-}
-
-class CardFace {
-  final String layout;
-  final ImageURIS? imageURIS;
-
-  const CardFace({required this.layout, required this.imageURIS});
-
-  factory CardFace.fromJson(Map<String, dynamic> json) {
-    ImageURIS? imageURIS;
-    if (json['image_uris'] != null) {
-      imageURIS = ImageURIS.fromJson(json['image_uris']);
-    }
-
-    return CardFace(
-        layout: json['layout'].toString(),
-        imageURIS: imageURIS);
-  }
-}
-
-class CardSearch {
-  final List<Card> cards;
-
-  const CardSearch({required this.cards});
-
-  factory CardSearch.fromJson(Map<String, dynamic> json) {
-    List<Card> cards = [];
-    if (json['data'] != null) {
-      for (var element in json['data']) {
-        //try {
-          cards.add(Card.fromJson(element));
-        //} catch(e) {};
-      }
-    }
-
-    return CardSearch(cards: cards);
-  }
-}
-
-class ImageURIS {
-  final String png;
-  final String borderCrop;
-  final String artCrop;
-  final String large;
-  final String normal;
-  final String small;
-
-  const ImageURIS(
-      {required this.png,
-      required this.borderCrop,
-      required this.artCrop,
-      required this.large,
-      required this.normal,
-      required this.small});
-
-  factory ImageURIS.fromJson(Map<String, dynamic> json) {
-    return ImageURIS(
-        png: json['png'],
-        borderCrop: json['border_crop'],
-        artCrop: json['art_crop'],
-        large: json['large'],
-        normal: json['normal'],
-        small: json['small']);
   }
 }

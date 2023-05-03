@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:placeholder_name/view_model/card_view_model.dart';
@@ -10,13 +9,14 @@ void main() {
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -24,16 +24,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: CardViewModel()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         title: 'Deck Builder',
         theme: ThemeData(
-          appBarTheme: AppBarTheme(),
-          primarySwatch: Colors.blue,
-          accentColor: Colors.blueGrey,
+          appBarTheme: const AppBarTheme(),
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => SearchScreen(),
+          '/': (context) => const SearchScreen(),
         },
       ),
     );
