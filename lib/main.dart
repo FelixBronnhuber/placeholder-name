@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Deck Builder',
+        restorationScopeId: "root",
         theme: ThemeData(
           appBarTheme: const AppBarTheme(),
         ),

@@ -13,7 +13,8 @@ class SearchScreen extends StatefulWidget {
   SearchScreenState createState() => SearchScreenState();
 }
 
-class SearchScreenState extends State<SearchScreen> {
+class SearchScreenState extends State<SearchScreen> with RestorationMixin{
+  final inputController = RestorableTextEditingController();
   Widget getCardWidget(BuildContext context, ApiResponse apiResponse) {
     List<api.Card>? cardList = apiResponse.data as List<api.Card>?;
 
@@ -75,7 +76,7 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Container _buildTextField(TextEditingController inputController) {
+  Container _buildTextField(RestorableTextEditingController inputController) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
@@ -87,7 +88,7 @@ class SearchScreenState extends State<SearchScreen> {
         style: const TextStyle(
           fontSize: 12.0,
         ),
-        controller: inputController,
+        controller: inputController.value,
         autocorrect: false,
         onSubmitted: submitSearch,
         decoration: _buildInputDecoration(),
@@ -113,7 +114,6 @@ class SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final inputController = TextEditingController();
     ApiResponse apiResponse = Provider.of<CardViewModel>(context).response;
 
     return Scaffold(
@@ -134,5 +134,12 @@ class SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  String? get restorationId => "search_screen";
+
+  @override void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(inputController, "searchBarInput");
   }
 }
