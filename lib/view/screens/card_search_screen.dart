@@ -4,6 +4,7 @@ import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
 import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/view_model/card_view_model.dart';
+
 import 'package:provider/provider.dart';
 
 class CardSearchScreen extends StatefulWidget {
@@ -15,7 +16,10 @@ class CardSearchScreen extends StatefulWidget {
   CardSearchScreenState createState() => CardSearchScreenState();
 }
 
-class CardSearchScreenState extends State<CardSearchScreen> {
+class CardSearchScreenState extends State<CardSearchScreen>
+    with RestorationMixin {
+  final inputController = RestorableTextEditingController();
+
   Widget getCardWidget(BuildContext context, ApiResponse apiResponse) {
     List<api.Card>? cardList = apiResponse.data as List<api.Card>?;
 
@@ -77,7 +81,7 @@ class CardSearchScreenState extends State<CardSearchScreen> {
     );
   }
 
-  Container _buildTextField(TextEditingController inputController) {
+  Container _buildTextField(RestorableTextEditingController inputController) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
@@ -89,7 +93,7 @@ class CardSearchScreenState extends State<CardSearchScreen> {
         style: const TextStyle(
           fontSize: 12.0,
         ),
-        controller: inputController,
+        controller: inputController.value,
         autocorrect: false,
         onSubmitted: submitSearch,
         decoration: _buildInputDecoration(),
@@ -115,7 +119,6 @@ class CardSearchScreenState extends State<CardSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final inputController = TextEditingController();
     ApiResponse apiResponse = Provider.of<CardViewModel>(context).response;
 
     return Scaffold(
@@ -136,5 +139,13 @@ class CardSearchScreenState extends State<CardSearchScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  String? get restorationId => "search_screen";
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(inputController, "searchBarInput");
   }
 }
