@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view_model/card_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:placeholder_name/view/screens/search_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,12 +29,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           appBarTheme: const AppBarTheme(),
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const SearchScreen(),
-        },
+        home: const MainNavigationScreen(),
       ),
     );
   }
 }
-

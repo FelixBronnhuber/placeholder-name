@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:placeholder_name/model/api/api_response.dart';
+import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
 import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/view_model/card_view_model.dart';
-
 import 'package:provider/provider.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class CardSearchScreen extends StatefulWidget {
+  final MainNavigationScreenState parent;
+
+  const CardSearchScreen({super.key, required this.parent});
 
   @override
-  SearchScreenState createState() => SearchScreenState();
+  CardSearchScreenState createState() => CardSearchScreenState();
 }
 
-class SearchScreenState extends State<SearchScreen> {
+class CardSearchScreenState extends State<CardSearchScreen> {
   Widget getCardWidget(BuildContext context, ApiResponse apiResponse) {
     List<api.Card>? cardList = apiResponse.data as List<api.Card>?;
 
