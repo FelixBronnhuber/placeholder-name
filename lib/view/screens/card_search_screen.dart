@@ -119,6 +119,8 @@ class CardSearchScreenState extends State<CardSearchScreen>
 
   @override
   Widget build(BuildContext context) {
+    final inputController = RestorableTextEditingController();
+
     ApiResponse apiResponse = Provider.of<CardViewModel>(context).response;
 
     return Scaffold(
