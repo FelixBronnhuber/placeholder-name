@@ -44,4 +44,24 @@ class Card {
         imageURIS: imageURIS,
         cardFaces: cardFaces);
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+
+    data['id'] = id;
+    data['uri'] = uri;
+    data['name'] = name;
+    data['power'] = power;
+    data['toughness'] = toughness;
+    data['frame'] = frame;
+
+    if (imageURIS != null) {
+      data['image_uris'] = imageURIS!.toJson();
+    }
+
+    data['card_faces'] =
+        cardFaces.map((cardFace) => cardFace.toJson()).toList();
+
+    return data;
+  }
 }
