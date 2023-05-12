@@ -10,13 +10,16 @@ class DeckStatisticsScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _DeckStatisticsScreenState();
 }
 
-class _DeckStatisticsScreenState extends State<DeckStatisticsScreen> with AutomaticKeepAliveClientMixin {
+class _DeckStatisticsScreenState extends State<DeckStatisticsScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Deck Statistics'),
-        backgroundColor: const Color(0xFFFFFFFF),
+        backgroundColor: const Color(0x00FFFFFF),
         elevation: 0.0,
         centerTitle: false,
         titleTextStyle: const TextStyle(
