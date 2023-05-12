@@ -1,36 +1,27 @@
 import 'package:flutter/cupertino.dart';
-import 'package:placeholder_name/model/api/api_response.dart';
+import 'package:placeholder_name/model/responses/response.dart';
 import 'package:placeholder_name/model/card.dart';
 import 'package:placeholder_name/model/card_repository.dart';
 
-class CardViewModel with ChangeNotifier
-{
-  ApiResponse _apiResponse = ApiResponse.initial('Empty Data');
+class CardViewModel with ChangeNotifier {
+  Response _apiResponse = Response.initial('Empty Data');
 
-  Card? _card;
-
-  ApiResponse get response{
+  Response get response {
     return _apiResponse;
   }
 
-  Card? get card {
-    return _card;
-  }
-
-  Future<void> fetchCardData(String value) async
-  {
-    _apiResponse = ApiResponse.loading('Fetching card data');
+  Future<void> fetchCardData(String value) async {
+    _apiResponse = Response.loading('Fetching card data');
 
     notifyListeners();
 
     try {
       List<Card> cardList = await CardRepository().fetchCardList(value);
-      _apiResponse = ApiResponse.completed(cardList);
-    } catch (e){
-      _apiResponse = ApiResponse.error(e.toString());
+      _apiResponse = Response.completed(cardList);
+    } catch (e) {
+      _apiResponse = Response.error(e.toString());
     }
 
     notifyListeners();
   }
-
 }
