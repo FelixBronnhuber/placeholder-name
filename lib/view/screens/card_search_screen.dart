@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:placeholder_name/model/api/api_response.dart';
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
@@ -17,7 +18,7 @@ class CardSearchScreen extends StatefulWidget {
 }
 
 class CardSearchScreenState extends State<CardSearchScreen>
-    with RestorationMixin {
+    with RestorationMixin, AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   final inputController = RestorableTextEditingController();
 
   Widget getCardWidget(BuildContext context, ApiResponse apiResponse) {
@@ -148,4 +149,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(inputController, "searchBarInput");
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

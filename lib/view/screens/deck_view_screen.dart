@@ -10,7 +10,7 @@ class DeckViewScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _DeckViewScreenState();
 }
 
-class _DeckViewScreenState extends State<DeckViewScreen> {
+class _DeckViewScreenState extends State<DeckViewScreen> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,4 +27,7 @@ class _DeckViewScreenState extends State<DeckViewScreen> {
       body: const Center(child: Text("...")),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

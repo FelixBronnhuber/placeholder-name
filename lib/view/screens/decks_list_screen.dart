@@ -10,7 +10,7 @@ class DecksListScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _DecksListScreenState();
 }
 
-class _DecksListScreenState extends State<DecksListScreen> {
+class _DecksListScreenState extends State<DecksListScreen> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,4 +27,7 @@ class _DecksListScreenState extends State<DecksListScreen> {
       body: const Center(child: Text("...")),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

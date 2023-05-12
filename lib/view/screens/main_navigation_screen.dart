@@ -12,7 +12,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class MainNavigationScreenState extends State<MainNavigationScreen> {
-  final _controller = PageController(initialPage: 0, viewportFraction: 1.0);
+  final _controller = PageController(initialPage: 0, viewportFraction: 1.0,);
 
   late DecksListScreen decksListScreen;
   late CardSearchScreen cardSearchScreen;

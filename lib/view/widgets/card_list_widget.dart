@@ -11,17 +11,37 @@ class CardListWidget extends StatefulWidget {
   CardListWidgetState createState() => CardListWidgetState();
 }
 
-class CardListWidgetState extends State<CardListWidget> {
+class CardListWidgetState extends State<CardListWidget> with TickerProviderStateMixin{
+
   Widget _buildCardItem(api.Card card) {
-    //api.Card? _selectedCard = Provider.of<CardViewModel>(context).card;
+    bool status = false;
+    AnimationController _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    Animation<double> _animation = Tween<double>(begin: 0, end: 1.571).animate(_controller);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 60.0),
       child: Center(
-        child: Image.network(
-            card.imageURIS?.png ?? card.cardFaces.first.imageURIS!.png,
-            scale: 1.0),
-      ),
+          child:AnimatedBuilder(animation: _animation,
+            builder: (context, child) {
+              return Transform.rotate(
+                angle: _animation.value,
+                child: InkWell(
+                  onTap: () {
+                    if(status)
+                      _controller.forward();
+                    else
+                      _controller.reverse();
+                    status = !status;
+                  },
+                  child: Image.network(
+                      card.imageURIS?.png ??
+                          card.cardFaces.first.imageURIS!.png,
+                      scale: 1.0),
+                ),
+              );
+            },
+          ),
+        ),
     );
   }
 
