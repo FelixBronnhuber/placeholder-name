@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:placeholder_name/model/api/api_response.dart';
+import 'package:placeholder_name/model/responses/response.dart';
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
 import 'package:placeholder_name/model/card.dart' as api;
@@ -18,10 +17,13 @@ class CardSearchScreen extends StatefulWidget {
 }
 
 class CardSearchScreenState extends State<CardSearchScreen>
-    with RestorationMixin, AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+    with
+        RestorationMixin,
+        AutomaticKeepAliveClientMixin,
+        TickerProviderStateMixin {
   final inputController = RestorableTextEditingController();
 
-  Widget getCardWidget(BuildContext context, ApiResponse apiResponse) {
+  Widget _handleApiResponse(BuildContext context, Response apiResponse) {
     List<api.Card>? cardList = apiResponse.data as List<api.Card>?;
 
     switch (apiResponse.status) {
@@ -45,7 +47,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
       case Status.initial:
       default:
         return const Center(
-          child: Text('Search the card by tags'),
+          child: Text('Search the cards by tags'),
         );
     }
   }
@@ -53,7 +55,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
   AppBar _buildAppBar() {
     return AppBar(
       title: const Text('Search Scryfall Cards'),
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0x00FFFFFF),
       elevation: 0.0,
       centerTitle: false,
       titleTextStyle: const TextStyle(
@@ -67,15 +69,15 @@ class CardSearchScreenState extends State<CardSearchScreen>
     return const InputDecoration(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.black, width: 1.0),
+        borderSide: BorderSide(color: Colors.black, width: 0.5),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.black, width: 1.0),
+        borderSide: BorderSide(color: Colors.black, width: 0.5),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.black, width: 1.0),
+        borderSide: BorderSide(color: Colors.black, width: 0.5),
       ),
       hintText: 'Enter Scryfall query',
       isDense: true,
@@ -120,7 +122,9 @@ class CardSearchScreenState extends State<CardSearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    ApiResponse apiResponse = Provider.of<CardViewModel>(context).response;
+    super.build(context);
+
+    Response apiResponse = Provider.of<CardViewModel>(context).response;
 
     return Scaffold(
       appBar: _buildAppBar(),
@@ -136,7 +140,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
               ],
             ),
           ),
-          Expanded(child: getCardWidget(context, apiResponse)),
+          Expanded(child: _handleApiResponse(context, apiResponse)),
         ],
       ),
     );
