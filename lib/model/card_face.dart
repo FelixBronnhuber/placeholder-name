@@ -14,4 +14,16 @@ class CardFace {
 
     return CardFace(layout: json['layout'].toString(), imageURIS: imageURIS);
   }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+
+    data['layout'] = layout;
+
+    if (imageURIS != null) {
+      data['image_uris'] = imageURIS!.toJson();
+    }
+
+    return data;
+  }
 }

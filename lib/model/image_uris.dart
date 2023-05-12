@@ -8,11 +8,11 @@ class ImageURIS {
 
   const ImageURIS(
       {required this.png,
-        required this.borderCrop,
-        required this.artCrop,
-        required this.large,
-        required this.normal,
-        required this.small});
+      required this.borderCrop,
+      required this.artCrop,
+      required this.large,
+      required this.normal,
+      required this.small});
 
   factory ImageURIS.fromJson(Map<String, dynamic> json) {
     return ImageURIS(
@@ -22,5 +22,18 @@ class ImageURIS {
         large: json['large'],
         normal: json['normal'],
         small: json['small']);
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+
+    data['png'] = png;
+    data['border_crop'] = borderCrop;
+    data['art_crop'] = artCrop;
+    data['large'] = large;
+    data['normal'] = normal;
+    data['small'] = small;
+
+    return data;
   }
 }
