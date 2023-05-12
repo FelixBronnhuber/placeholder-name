@@ -5,12 +5,14 @@ class Deck {
   String name;
   DeckFormat format;
   List<Card> cards;
+  String image;
 
   Deck(
       {required this.id,
       required this.name,
       required this.format,
-      required this.cards});
+      required this.cards,
+      required this.image});
 
   factory Deck.fromJson(Map<String, dynamic> json) {
     List<Card> cards = [];
@@ -25,6 +27,7 @@ class Deck {
       format: DeckFormat.values
           .firstWhere((deckFormat) => (deckFormat.name == json['format'])),
       cards: cards,
+      image: json['image']
     );
   }
 
@@ -35,6 +38,7 @@ class Deck {
     data['name'] = name;
     data['format'] = format.name;
     data['cards'] = cards.map((Card card) => card.toJson()).toList();
+    data['image'] = image;
 
     return data;
   }

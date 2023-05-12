@@ -57,7 +57,8 @@ void main() {
             },
             "card_faces": []
         }
-    ]
+    ],
+    "image": "https://cards.scryfall.io/border_crop/front/4/c/4ce5b167-df7a-499e-8dcc-7aec2e28b382.jpg?1610161645"
 }
   """;
 
