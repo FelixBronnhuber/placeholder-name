@@ -68,12 +68,16 @@ class _DecksListScreenState extends State<DecksListScreen>
         return Expanded(
             child: DeckListWidget(deckList!, (Deck deck) {
           Provider.of<DeckViewModel>(context, listen: false);
-        }));
+        }, updateDeckSelection));
       case Status.error:
         return const Center(
           child: Text('An unexpected error occurred while loading your decks.'),
         );
     }
+  }
+
+  void updateDeckSelection(Deck deck) {
+    Provider.of<DeckViewModel>(context, listen: false).selectedDeck = deck;
   }
 
   void executeAfterBuild(BuildContext context) {

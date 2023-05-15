@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
+import 'package:placeholder_name/view_model/deck_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DeckStatisticsScreen extends StatefulWidget {
   final MainNavigationScreenState parent;
@@ -16,6 +18,12 @@ class _DeckStatisticsScreenState extends State<DeckStatisticsScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
+    int numberOfCards = Provider.of<DeckViewModel>(context, listen: true)
+            .selectedDeck
+            ?.cards
+            .length ??
+        0;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Deck Statistics'),
@@ -27,7 +35,7 @@ class _DeckStatisticsScreenState extends State<DeckStatisticsScreen>
           fontSize: 24.0,
         ),
       ),
-      body: const Center(child: Text("...")),
+      body: Center(child: Text("Number of Cards in the deck: $numberOfCards")),
     );
   }
 

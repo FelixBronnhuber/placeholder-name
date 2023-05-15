@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:placeholder_name/model/deck.dart';
+import 'package:placeholder_name/view_model/deck_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DeckListWidget extends StatefulWidget {
   final List<Deck> _deckList;
   final Function _function;
 
-  const DeckListWidget(this._deckList, this._function, {super.key});
+  final Function _selected;
+
+  const DeckListWidget(this._deckList, this._function, this._selected,
+      {super.key});
 
   @override
   DeckListWidgetState createState() => DeckListWidgetState();
@@ -14,6 +19,10 @@ class DeckListWidget extends StatefulWidget {
 class DeckListWidgetState extends State<DeckListWidget> {
   Widget _buildDeckItem(Deck deck) {
     return Card(
+      color:
+          Provider.of<DeckViewModel>(context, listen: true).selectedDeck == deck
+              ? Colors.white60
+              : Colors.white,
       borderOnForeground: true,
       shape: const OutlineInputBorder(
           borderSide: BorderSide(width: 0.5),
@@ -21,7 +30,7 @@ class DeckListWidgetState extends State<DeckListWidget> {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
           onTap: () {
-            widget._function(deck);
+            widget._selected(deck);
           },
           child: Row(children: [
             Padding(
@@ -51,7 +60,7 @@ class DeckListWidgetState extends State<DeckListWidget> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 60.0, horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 65.0, horizontal: 10.0),
       child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
