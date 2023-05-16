@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:placeholder_name/model/card.dart';
+import 'package:placeholder_name/model/deck.dart';
 import 'package:placeholder_name/model/deck_repository.dart';
 import 'package:placeholder_name/model/responses/response.dart';
-import 'package:placeholder_name/model/deck.dart';
 
 class DeckViewModel with ChangeNotifier {
   DeckRepository deckRepository = DeckRepository();
@@ -33,5 +34,9 @@ class DeckViewModel with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void addCardsToSelectedDeck(List<Card> cards) {
+    selectedDeck?.cards.addAll(cards);
   }
 }

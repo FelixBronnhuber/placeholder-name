@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
-import 'package:placeholder_name/view_model/deck_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:placeholder_name/model/deck.dart';
 import 'package:placeholder_name/model/responses/response.dart';
+import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/deck_list_widget.dart';
+import 'package:placeholder_name/view_model/deck_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DecksListScreen extends StatefulWidget {
   final MainNavigationScreenState parent;
@@ -37,22 +37,23 @@ class _DecksListScreenState extends State<DecksListScreen>
           fontSize: 24.0,
         ),
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.5),
-          color: Colors.white,
-          shape: BoxShape.circle,
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            //TODO: Implement add new Deck feature
-          },
-        ),
-      ),
+      floatingActionButton: _styledFloatingButton(context),
       body: Column(children: <Widget>[
         Container(child: _handleDeckResponse(context, deckResponse))
       ]),
+    );
+  }
+
+  Widget _styledFloatingButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5),
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(icon: const Icon(Icons.add), onPressed: () {
+
+      }),
     );
   }
 
