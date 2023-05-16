@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/model/responses/response.dart';
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
-import 'package:placeholder_name/model/card.dart' as api;
+import 'package:placeholder_name/view/widgets/styled_text_field.dart';
 import 'package:placeholder_name/view_model/card_view_model.dart';
-
 import 'package:provider/provider.dart';
 
 class CardSearchScreen extends StatefulWidget {
@@ -65,59 +65,11 @@ class CardSearchScreenState extends State<CardSearchScreen>
     );
   }
 
-  InputDecoration _buildInputDecoration() {
-    return const InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.black, width: 0.5),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.black, width: 0.5),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.black, width: 0.5),
-      ),
-      hintText: 'Enter Scryfall query',
-      isDense: true,
-    );
-  }
-
-  Container _buildTextField(RestorableTextEditingController inputController) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        boxShadow: [buildBoxShadow()],
-      ),
-      child: TextField(
-        style: const TextStyle(
-          fontSize: 12.0,
-        ),
-        controller: inputController.value,
-        autocorrect: false,
-        onSubmitted: submitSearch,
-        decoration: _buildInputDecoration(),
-      ),
-    );
-  }
-
   void submitSearch(String value) {
     if (value.isNotEmpty) {
       Provider.of<CardViewModel>(context, listen: false)
           .fetchCardData(Uri.encodeFull(value));
     }
-  }
-
-  BoxShadow buildBoxShadow() {
-    return BoxShadow(
-      color: Colors.grey.withOpacity(0.3),
-      spreadRadius: 0,
-      blurRadius: 4,
-      offset: const Offset(0, 5), // changes position of shadow
-    );
   }
 
   @override
@@ -135,7 +87,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: _buildTextField(inputController),
+                  child: StyledTextField(inputController: inputController, submitSearch: submitSearch),
                 ),
               ],
             ),
