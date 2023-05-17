@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ScryfallService {
   Future getResponse(String urlEncodedQuery) async {
+    sleep(const Duration(milliseconds: 50));
     dynamic responseJson;
     try {
       final response = await http.get(

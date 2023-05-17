@@ -46,7 +46,18 @@ class Deck {
 
 enum DeckFormat {
   commander(name: "Commander"),
-  pauper(name: "Pauper");
+  modern(name: "Modern"),
+  pauper(name: "Pauper"),
+  standard(name: "Standard"),
+  conspiracy(name: "Conspiracy"),
+  brawl(name: "Brawl"),
+  boosterDraft(name: "Booster Draft"),
+  planechase(name: "Planechase"),
+  oathbreaker(name: "Oathbraker"),
+  historic(name: "Historic"),
+  vintage(name: "Vintage"),
+  twoHeadedGiant(name: "Two-Headed Giant"),
+  freeform(name: "Freeform");
 
   const DeckFormat({required this.name});
 
