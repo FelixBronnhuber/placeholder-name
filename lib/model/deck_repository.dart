@@ -50,36 +50,6 @@ class DeckRepository {
 
     deckList ??= []; //TODO: Load deck from file
 
-    if (deckList![0].cards.isEmpty) {
-      CardRepository()
-          .fetchCardList("Omnath")
-          .then((value) => deckList![0].cards = value);
-    }
-
-    if (deckList![1].cards.isEmpty) {
-      CardRepository()
-          .fetchCardList("Arcades")
-          .then((value) => deckList![1].cards = value);
-    }
-
-    if (deckList![2].cards.isEmpty) {
-      CardRepository()
-          .fetchCardList("Hofri")
-          .then((value) => deckList![2].cards = value);
-    }
-
-    if (deckList![3].cards.isEmpty) {
-      CardRepository()
-          .fetchCardList("(Dina, Soul) or (Sanguine t:enchantment)")
-          .then((value) => deckList![3].cards = value);
-    }
-
-    if (deckList![4].cards.isEmpty) {
-      CardRepository()
-          .fetchCardList("(Fynn) or (t:creature o:deathtouch c=g cmc<=2)")
-          .then((value) => deckList![4].cards = value);
-    }
-
     return deckList!;
   }
 }

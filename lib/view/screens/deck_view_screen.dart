@@ -61,7 +61,7 @@ class _DeckViewScreenState extends State<DeckViewScreen>
   }
 
   Widget _handleDeckList(BuildContext context, Deck? deck) {
-    List<api.Card> cards = deck?.cards ?? <api.Card>[];
+    List<api.MTGCard> cards = deck?.cards ?? <api.MTGCard>[];
 
     return ListView.builder(
       itemCount: cards.length,
@@ -69,7 +69,7 @@ class _DeckViewScreenState extends State<DeckViewScreen>
     );
   }
 
-  Widget _buildCardItem(api.Card card) {
+  Widget _buildCardItem(api.MTGCard card) {
     bool status = false;
     AnimationController controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));

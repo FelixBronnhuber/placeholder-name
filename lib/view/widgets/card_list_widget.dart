@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:placeholder_name/model/card.dart' as api;
+import 'package:placeholder_name/view_model/card_view_model.dart';
+import 'package:provider/provider.dart';
 
 class CardListWidget extends StatefulWidget {
-  final List<api.Card> _cardList;
+  final List<api.MTGCard> _cardList;
   final Function _function;
 
   const CardListWidget(this._cardList, this._function, {super.key});
@@ -13,7 +15,7 @@ class CardListWidget extends StatefulWidget {
 
 class CardListWidgetState extends State<CardListWidget>
     with TickerProviderStateMixin {
-  Widget _buildCardItem(api.Card card) {
+  Widget _buildCardItem(api.MTGCard card) {
     bool status = false;
     AnimationController controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
@@ -35,6 +37,7 @@ class CardListWidgetState extends State<CardListWidget>
                   } else {
                     controller.reverse();
                   }
+                  Provider.of<CardViewModel>(context, listen: false).updateSelectedCards(card, status);
                   status = !status;
                 },
                 child: Image.network(
@@ -58,7 +61,7 @@ class CardListWidgetState extends State<CardListWidget>
           scrollDirection: Axis.vertical,
           itemCount: widget._cardList.length,
           itemBuilder: (BuildContext context, int index) {
-            api.Card data = widget._cardList[index];
+            api.MTGCard data = widget._cardList[index];
             return InkWell(
               onTap: () {
                 widget._function(data);

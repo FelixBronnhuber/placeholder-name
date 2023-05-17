@@ -36,7 +36,7 @@ class DeckViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void addCardsToSelectedDeck(List<Card> cards) {
+  void addCardsToSelectedDeck(List<MTGCard> cards) {
     selectedDeck?.cards.addAll(cards);
   }
 }

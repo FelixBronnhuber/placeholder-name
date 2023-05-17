@@ -4,7 +4,7 @@ class Deck {
   int id;
   String name;
   DeckFormat format;
-  List<Card> cards;
+  List<MTGCard> cards;
   String image;
 
   Deck(
@@ -15,10 +15,10 @@ class Deck {
       required this.image});
 
   factory Deck.fromJson(Map<String, dynamic> json) {
-    List<Card> cards = [];
+    List<MTGCard> cards = [];
 
     for (var card in json['cards']) {
-      cards.add(Card.fromJson(card));
+      cards.add(MTGCard.fromJson(card));
     }
 
     return Deck(
@@ -37,7 +37,7 @@ class Deck {
     data['id'] = id;
     data['name'] = name;
     data['format'] = format.name;
-    data['cards'] = cards.map((Card card) => card.toJson()).toList();
+    data['cards'] = cards.map((MTGCard card) => card.toJson()).toList();
     data['image'] = image;
 
     return data;

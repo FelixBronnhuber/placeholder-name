@@ -4,6 +4,7 @@ import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
 import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/view_model/card_view_model.dart';
+import 'package:placeholder_name/view_model/deck_view_model.dart';
 
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
   final inputController = RestorableTextEditingController();
 
   Widget _handleApiResponse(BuildContext context, Response apiResponse) {
-    List<api.Card>? cardList = apiResponse.data as List<api.Card>?;
+    List<api.MTGCard>? cardList = apiResponse.data as List<api.MTGCard>?;
 
     switch (apiResponse.status) {
       case Status.loading:
@@ -120,6 +121,22 @@ class CardSearchScreenState extends State<CardSearchScreen>
     );
   }
 
+  Widget _styledFloatingButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5),
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(icon: const Icon(Icons.add), onPressed: (){
+        List<api.MTGCard> selectedCards = Provider.of<CardViewModel>(context, listen:false).selected;
+        Provider.of<DeckViewModel>(context, listen:false).addCardsToSelectedDeck(selectedCards);
+        Provider.of<CardViewModel>(context, listen: false).removeCards();
+      }
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -128,6 +145,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
 
     return Scaffold(
       appBar: _buildAppBar(),
+      floatingActionButton: _styledFloatingButton(context),
       body: Column(
         children: <Widget>[
           Padding(

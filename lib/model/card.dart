@@ -1,7 +1,7 @@
 import 'card_face.dart';
 import 'image_uris.dart';
 
-class Card {
+class MTGCard {
   final String id;
   final String uri;
   final String name;
@@ -11,7 +11,7 @@ class Card {
   final ImageURIS? imageURIS;
   final List<CardFace> cardFaces;
 
-  const Card(
+  const MTGCard(
       {required this.id,
       required this.uri,
       required this.name,
@@ -21,7 +21,7 @@ class Card {
       required this.imageURIS,
       required this.cardFaces});
 
-  factory Card.fromJson(Map<String, dynamic> json) {
+  factory MTGCard.fromJson(Map<String, dynamic> json) {
     ImageURIS? imageURIS;
     if (json['image_uris'] != null) {
       imageURIS = ImageURIS.fromJson(json['image_uris']);
@@ -34,7 +34,7 @@ class Card {
       }
     }
 
-    return Card(
+    return MTGCard(
         id: json['id'].toString(),
         uri: json['uri'].toString(),
         name: json['name'].toString(),
