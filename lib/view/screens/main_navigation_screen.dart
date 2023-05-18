@@ -12,7 +12,8 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _currentScreen = 1;
+  final int firstScreen = 1;
+  final int lastScreen = 4;
 
   late PageController _controller;
   late DecksListScreen decksListScreen;
@@ -25,7 +26,7 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
     super.initState();
 
     _controller = PageController(
-      initialPage: _currentScreen,
+      initialPage: firstScreen,
       viewportFraction: 1.0,
     );
 
@@ -56,19 +57,15 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
         Container(color: Colors.black)
       ],
       onPageChanged: (nextPage) {
-        if (nextPage == 0) {
-          _controller.animateToPage(4,
+        if (nextPage < firstScreen) {
+          _controller.animateToPage(lastScreen,
               duration: const Duration(milliseconds: 500),
               curve: Curves.fastOutSlowIn);
-        } else if (nextPage == 5) {
-          _controller.animateToPage(1,
+        } else if (nextPage > lastScreen) {
+          _controller.animateToPage(firstScreen,
               duration: const Duration(milliseconds: 500),
               curve: Curves.fastOutSlowIn);
         }
-
-        setState(() {
-          _currentScreen = nextPage;
-        });
       },
     );
   }
