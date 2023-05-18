@@ -37,12 +37,18 @@ class CardListWidgetState extends State<CardListWidget>
                   } else {
                     controller.reverse();
                   }
-                  Provider.of<CardViewModel>(context, listen: false).updateSelectedCards(card, status);
+                  Provider.of<CardViewModel>(context, listen: false)
+                      .updateSelectedCards(card, status);
                   status = !status;
                 },
-                child: Image.network(
-                    card.imageURIS?.png ?? card.cardFaces.first.imageURIS!.png,
-                    scale: 1.0),
+                child: FadeInImage(
+                  fadeInDuration: const Duration(milliseconds: 2),
+                  image: NetworkImage(
+                      card.imageURIS?.png ??
+                          card.cardFaces.first.imageURIS!.png,
+                      scale: 1.0),
+                  placeholder: const AssetImage("assets/card_back.jpg"),
+                ),
               ),
             );
           },
