@@ -77,7 +77,7 @@ class _DeckViewScreenState extends State<DeckViewScreen>
         Tween<double>(begin: 0, end: 1.571).animate(controller);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 60.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 70.0),
       child: Center(
         child: AnimatedBuilder(
           animation: animation,
