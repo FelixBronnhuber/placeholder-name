@@ -44,7 +44,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
         );
       case Status.error:
         return const Center(
-          child: Text('Please try again latter!!!'),
+          child: Text('Please try again later!'),
         );
       case Status.initial:
       default:
