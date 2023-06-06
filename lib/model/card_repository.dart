@@ -6,9 +6,17 @@ class CardRepository {
 
   Future<List<MTGCard>> fetchCardList(String value) async {
     dynamic response = await _scryfallService.getResponse(value);
+
+    List<MTGCard> cardList = [];
+
+    if (response == null) return cardList;
+
     final jsonData = response['data'] as List;
-    List<MTGCard> cardList =
-        jsonData.map((tagJson) => MTGCard.fromJson(tagJson)).toList();
+
+    if (jsonData.isEmpty) return cardList;
+
+    cardList = jsonData.map((tagJson) => MTGCard.fromJson(tagJson)).toList();
+
     return cardList;
   }
 }
