@@ -11,9 +11,12 @@ class DecksListScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _DecksListScreenState();
 }
 
-class _DecksListScreenState extends State<DecksListScreen> {
+class _DecksListScreenState extends State<DecksListScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search your Decks'),
@@ -53,4 +56,7 @@ class _DecksListScreenState extends State<DecksListScreen> {
   Widget _deckListWidget(BuildContext context) {
     return const Expanded(child: DeckListWidget());
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
