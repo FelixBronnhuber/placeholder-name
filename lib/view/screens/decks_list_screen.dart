@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:placeholder_name/model/deck.dart';
-import 'package:placeholder_name/model/responses/response.dart';
-import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
+import 'package:placeholder_name/view/screens/deck_list_options_screen.dart';
 import 'package:placeholder_name/view/widgets/deck_list_widget.dart';
-import 'package:placeholder_name/view_model/deck_view_model.dart';
+import 'package:placeholder_name/view_model/deck_list_options_view_model.dart';
 import 'package:provider/provider.dart';
 
 class DecksListScreen extends StatefulWidget {
-  final MainNavigationScreenState parent;
-
-  const DecksListScreen({super.key, required this.parent});
+  const DecksListScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _DecksListScreenState();
 }
 
-class _DecksListScreenState extends State<DecksListScreen>
-    with AutomaticKeepAliveClientMixin {
+class _DecksListScreenState extends State<DecksListScreen> {
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => executeAfterBuild(context));
-
-    super.build(context);
-
-    Response deckResponse = Provider.of<DeckViewModel>(context).response;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search your Decks'),
@@ -38,9 +26,7 @@ class _DecksListScreenState extends State<DecksListScreen>
         ),
       ),
       floatingActionButton: _styledFloatingButton(context),
-      body: Column(children: <Widget>[
-        Container(child: _handleDeckResponse(context, deckResponse))
-      ]),
+      body: Column(children: [Container(child: _deckListWidget(context))]),
     );
   }
 
@@ -51,40 +37,20 @@ class _DecksListScreenState extends State<DecksListScreen>
         color: Colors.white,
         shape: BoxShape.circle,
       ),
-      child: IconButton(icon: const Icon(Icons.add), onPressed: () {
-
-      }),
+      child: IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+            Provider.of<DeckListOptionsViewModel>(context, listen: false)
+                .cleanTemporaryDeckValues();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DeckListOptionScreen()));
+          }),
     );
   }
 
-  Widget _handleDeckResponse(BuildContext context, Response deckResponse) {
-    List<Deck>? deckList = deckResponse.data as List<Deck>?;
-
-    switch (deckResponse.status) {
-      case Status.initial:
-        return const Center(child: Text("init"));
-      case Status.loading:
-        return const Center(child: CircularProgressIndicator());
-      case Status.completed:
-        return Expanded(
-            child: DeckListWidget(deckList!, (Deck deck) {
-          Provider.of<DeckViewModel>(context, listen: false);
-        }, updateDeckSelection));
-      case Status.error:
-        return const Center(
-          child: Text('An unexpected error occurred while loading your decks.'),
-        );
-    }
+  Widget _deckListWidget(BuildContext context) {
+    return const Expanded(child: DeckListWidget());
   }
-
-  void updateDeckSelection(Deck deck) {
-    Provider.of<DeckViewModel>(context, listen: false).selectedDeck = deck;
-  }
-
-  void executeAfterBuild(BuildContext context) {
-    Provider.of<DeckViewModel>(context, listen: false).fetchDeckData();
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

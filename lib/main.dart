@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view_model/card_view_model.dart';
+import 'package:placeholder_name/view_model/deck_list_options_view_model.dart';
 import 'package:placeholder_name/view_model/deck_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: CardViewModel()),
-        ChangeNotifierProvider.value(value: DeckViewModel(),)
+        ChangeNotifierProvider.value(value: DeckViewModel(),),
+        ChangeNotifierProvider.value(value: DeckListOptionsViewModel(),)
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: true,

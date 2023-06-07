@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:placeholder_name/model/deck.dart';
 import 'package:placeholder_name/view/widgets/deck_preview_card.dart';
+import 'package:placeholder_name/view_model/deck_list_options_view_model.dart';
+import 'package:placeholder_name/view_model/deck_view_model.dart';
+import 'package:provider/provider.dart';
 
-class DeckListWidget extends StatefulWidget {
-  final List<Deck> _deckList;
-  final Function _function;
+class DeckListWidget extends StatelessWidget {
+  const DeckListWidget({super.key});
 
-  final Function _selected;
-
-  const DeckListWidget(this._deckList, this._function, this._selected,
-      {super.key});
-
-  @override
-  DeckListWidgetState createState() => DeckListWidgetState();
-}
-
-class DeckListWidgetState extends State<DeckListWidget> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 65.0, horizontal: 10.0),
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: widget._deckList.length,
-          itemBuilder: (BuildContext context, int index) {
-            Deck deck = widget._deckList[index];
-            return DeckPreviewCard(
-              selected: widget._selected,
-              deck: deck,
-            );
-          }),
-    ));
+    return Consumer<DeckListOptionsViewModel>(builder: (context, vm, child) {
+      return SingleChildScrollView(
+          child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 65.0, horizontal: 10.0),
+        child: ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: vm.decks.length,
+            itemBuilder: (BuildContext context, int index) {
+              Deck deck = vm.decks[index];
+              return DeckPreviewCard(
+                selected: (Deck deck) {
+                  Provider.of<DeckViewModel>(context, listen: false)
+                      .selectedDeck = deck;
+                },
+                deck: deck,
+              );
+            }),
+      ));
+    });
   }
 }

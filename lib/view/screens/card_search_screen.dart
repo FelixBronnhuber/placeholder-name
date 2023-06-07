@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:placeholder_name/model/deck.dart';
 import 'package:placeholder_name/model/responses/response.dart';
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
 import 'package:placeholder_name/view/widgets/card_list_widget.dart';
 import 'package:placeholder_name/view/widgets/styled_text_field.dart';
 import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/view_model/card_view_model.dart';
+import 'package:placeholder_name/view_model/deck_list_options_view_model.dart';
 import 'package:placeholder_name/view_model/deck_view_model.dart';
 
 import 'package:provider/provider.dart';
@@ -91,9 +93,11 @@ class CardSearchScreenState extends State<CardSearchScreen>
         shape: BoxShape.circle,
       ),
       child: IconButton(icon: const Icon(Icons.add), onPressed: (){
+        Deck? deck = Provider.of<DeckViewModel>(context, listen: false).selectedDeck;
         List<api.MTGCard> selectedCards = Provider.of<CardViewModel>(context, listen:false).selected;
         Provider.of<DeckViewModel>(context, listen:false).addCardsToSelectedDeck(selectedCards);
         Provider.of<CardViewModel>(context, listen: false).removeCards();
+        Provider.of<DeckListOptionsViewModel>(context, listen: false).saveDeck(deck);
       }
       ),
     );

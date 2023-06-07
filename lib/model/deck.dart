@@ -6,13 +6,23 @@ class Deck {
   DeckFormat format;
   List<MTGCard> cards;
   String image;
+  bool isWhite;
+  bool isBlue;
+  bool isBlack;
+  bool isRed;
+  bool isGreen;
 
   Deck(
       {required this.id,
       required this.name,
       required this.format,
       required this.cards,
-      required this.image});
+      required this.image,
+      required this.isWhite,
+      required this.isBlue,
+      required this.isBlack,
+      required this.isRed,
+      required this.isGreen});
 
   factory Deck.fromJson(Map<String, dynamic> json) {
     List<MTGCard> cards = [];
@@ -27,7 +37,12 @@ class Deck {
       format: DeckFormat.values
           .firstWhere((deckFormat) => (deckFormat.name == json['format'])),
       cards: cards,
-      image: json['image']
+      image: json['image'],
+      isWhite: json['isWhite'],
+      isBlue: json['isBlue'],
+      isBlack: json['isBlack'],
+      isRed: json['isRed'],
+      isGreen: json['isGreen'],
     );
   }
 
@@ -39,6 +54,11 @@ class Deck {
     data['format'] = format.name;
     data['cards'] = cards.map((MTGCard card) => card.toJson()).toList();
     data['image'] = image;
+    data['isWhite'] = isWhite;
+    data['isBlue'] = isBlue;
+    data['isBlack'] = isBlack;
+    data['isRed'] = isRed;
+    data['isGreen'] = isGreen;
 
     return data;
   }

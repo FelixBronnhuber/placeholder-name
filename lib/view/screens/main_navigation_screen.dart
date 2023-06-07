@@ -30,7 +30,7 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
       viewportFraction: 1.0,
     );
 
-    decksListScreen = DecksListScreen(parent: this);
+    decksListScreen = const DecksListScreen();
     cardSearchScreen = CardSearchScreen(parent: this);
     deckViewScreen = DeckViewScreen(parent: this);
     deckStatisticsScreen = DeckStatisticsScreen(parent: this);
