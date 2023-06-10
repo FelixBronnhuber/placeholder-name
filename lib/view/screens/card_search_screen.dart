@@ -38,9 +38,7 @@ class CardSearchScreenState extends State<CardSearchScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              child: CardListWidget(cardList!, (api.MTGCard card) {
-                Provider.of<CardViewModel>(context, listen: false);
-              }),
+              child: CardListWidget(cardList!, "CardViewModel"),
             ),
           ],
         );

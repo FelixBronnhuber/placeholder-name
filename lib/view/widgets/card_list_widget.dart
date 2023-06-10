@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/view_model/card_view_model.dart';
+import 'package:placeholder_name/view_model/deck_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CardListWidget extends StatefulWidget {
   final List<api.MTGCard> _cardList;
-  final Function _function;
+  final String _viewModel;
 
-  const CardListWidget(this._cardList, this._function, {super.key});
+  const CardListWidget(this._cardList, this._viewModel, {super.key});
 
   @override
   CardListWidgetState createState() => CardListWidgetState();
@@ -15,7 +16,7 @@ class CardListWidget extends StatefulWidget {
 
 class CardListWidgetState extends State<CardListWidget>
     with TickerProviderStateMixin {
-  Widget _buildCardItem(api.MTGCard card) {
+  Widget _buildCardItem(api.MTGCard card, String viewModel) {
     bool status = false;
     AnimationController controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
@@ -32,14 +33,19 @@ class CardListWidgetState extends State<CardListWidget>
               angle: animation.value,
               child: InkWell(
                 onTap: () {
-                  if (status) {
+                  if (!status) {
                     controller.forward();
                   } else {
                     controller.reverse();
                   }
-                  Provider.of<CardViewModel>(context, listen: false)
-                      .updateSelectedCards(card, status);
                   status = !status;
+                  if(viewModel == "CardViewModel") {
+                    Provider.of<CardViewModel>(context, listen: false)
+                        .updateSelectedCards(card, status);
+                  }
+                  else if (viewModel == "DeckViewModel") {
+                    Provider.of<DeckViewModel>(context, listen: false).updateSelectedCards(card, status);
+                  }
                 },
                 child: FadeInImage(
                   fadeInDuration: const Duration(milliseconds: 2),
@@ -69,12 +75,9 @@ class CardListWidgetState extends State<CardListWidget>
           itemBuilder: (BuildContext context, int index) {
             api.MTGCard data = widget._cardList[index];
             return InkWell(
-              onTap: () {
-                widget._function(data);
-              },
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: _buildCardItem(data)),
+                  child: _buildCardItem(data, widget._viewModel)),
             );
           },
         ),

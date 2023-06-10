@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:placeholder_name/model/deck.dart';
 import 'package:placeholder_name/model/card.dart' as api;
 import 'package:placeholder_name/view/screens/main_navigation_screen.dart';
+import 'package:placeholder_name/view_model/deck_list_options_view_model.dart';
 import 'package:placeholder_name/view_model/deck_view_model.dart';
+import 'package:placeholder_name/view/widgets/card_list_widget.dart';
 import 'package:provider/provider.dart';
 
 class DeckViewScreen extends StatefulWidget {
@@ -24,6 +26,7 @@ class _DeckViewScreenState extends State<DeckViewScreen>
 
     return Scaffold(
       appBar: _buildAppBar(),
+      floatingActionButton: _styledFloatingButton(context),
       body: Column(
         children: <Widget>[
           Padding(
@@ -60,47 +63,31 @@ class _DeckViewScreenState extends State<DeckViewScreen>
     );
   }
 
-  Widget _handleDeckList(BuildContext context, Deck? deck) {
-    List<api.MTGCard> cards = deck?.cards ?? <api.MTGCard>[];
-
-    return ListView.builder(
-      itemCount: cards.length,
-      itemBuilder: (context, index) => _buildCardItem(cards[index]),
+  Widget _styledFloatingButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5),
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(icon: const Icon(Icons.add), onPressed: (){
+        Deck? deck = Provider.of<DeckViewModel>(context, listen: false).selectedDeck;
+        Provider.of<DeckViewModel>(context, listen: false).removeCardsFromSelectedDeck();
+        Provider.of<DeckListOptionsViewModel>(context, listen: false).saveDeck(deck);
+      }
+      ),
     );
   }
 
-  Widget _buildCardItem(api.MTGCard card) {
-    bool status = false;
-    AnimationController controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
-    Animation<double> animation =
-        Tween<double>(begin: 0, end: 1.571).animate(controller);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 70.0),
-      child: Center(
-        child: AnimatedBuilder(
-          animation: animation,
-          builder: (context, child) {
-            return Transform.rotate(
-              angle: animation.value,
-              child: InkWell(
-                onTap: () {
-                  if (status) {
-                    controller.forward();
-                  } else {
-                    controller.reverse();
-                  }
-                  status = !status;
-                },
-                child: Image.network(
-                    card.imageURIS?.png ?? card.cardFaces.first.imageURIS!.png,
-                    scale: 1.0),
-              ),
-            );
-          },
-        ),
-      ),
+  Widget _handleDeckList(BuildContext context, Deck? deck) {
+    List<api.MTGCard> cards = deck?.cards ?? <api.MTGCard>[];
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: CardListWidget(cards, "DeckViewModel"),
+          ),
+        ]
     );
   }
 
