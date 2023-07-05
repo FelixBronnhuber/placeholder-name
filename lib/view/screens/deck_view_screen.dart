@@ -70,7 +70,7 @@ class _DeckViewScreenState extends State<DeckViewScreen>
         color: Colors.white,
         shape: BoxShape.circle,
       ),
-      child: IconButton(icon: const Icon(Icons.add), onPressed: (){
+      child: IconButton(icon: const Icon(Icons.remove), onPressed: (){
         Deck? deck = Provider.of<DeckViewModel>(context, listen: false).selectedDeck;
         Provider.of<DeckViewModel>(context, listen: false).removeCardsFromSelectedDeck();
         Provider.of<DeckListOptionsViewModel>(context, listen: false).saveDeck(deck);

@@ -1,0 +1,331 @@
+@startuml
+set namespaceSeparator ::
+
+class "placeholder_name::main.dart::MyApp" {
+  +Widget build()
+}
+
+
+class "placeholder_name::model::card.dart::MTGCard" {
+  +String id
+  +String uri
+  +String name
+  +String power
+  +String toughness
+  +String frame
+  +ImageURIS? imageURIS
+  +List<CardFace> cardFaces
+  +Map<String, dynamic> toJson()
+}
+
+"placeholder_name::model::card.dart::MTGCard" o-- "placeholder_name::model::image_uris.dart::ImageURIS"
+
+class "placeholder_name::model::card_face.dart::CardFace" {
+  +String layout
+  +ImageURIS? imageURIS
+  +Map<String, dynamic> toJson()
+}
+
+"placeholder_name::model::card_face.dart::CardFace" o-- "placeholder_name::model::image_uris.dart::ImageURIS"
+
+class "placeholder_name::model::card_repository.dart::CardRepository" {
+  -ScryfallService _scryfallService
+  +Future<List<MTGCard>> fetchCardList()
+}
+
+"placeholder_name::model::card_repository.dart::CardRepository" o-- "placeholder_name::model::services::scryfall_service.dart::ScryfallService"
+
+class "placeholder_name::model::card_search.dart::CardSearch" {
+  +List<MTGCard> cards
+}
+
+class "placeholder_name::model::deck.dart::Deck" {
+  +int id
+  +String name
+  +DeckFormat format
+  +List<MTGCard> cards
+  +String image
+  +bool isWhite
+  +bool isBlue
+  +bool isBlack
+  +bool isRed
+  +bool isGreen
+  +Map<String, dynamic> toJson()
+}
+
+"placeholder_name::model::deck.dart::Deck" o-- "placeholder_name::model::deck.dart::DeckFormat"
+
+class "placeholder_name::model::deck.dart::DeckFormat" {
+  +int index
+  {static} +List<DeckFormat> values
+  {static} +DeckFormat commander
+}
+
+"placeholder_name::model::deck.dart::DeckFormat" o-- "placeholder_name::model::deck.dart::DeckFormat"
+
+class "placeholder_name::model::deck_repository.dart::DeckRepository" {
+  +Future<List<Deck>> getDeckList()
+  -Future<List<Deck>> _loadDecksFromFile()
+  -Future<void> _saveDecksToFile()
+  +Future<void> editDeck()
+  +Future<void> appendDeck()
+}
+
+class "placeholder_name::model::image_uris.dart::ImageURIS" {
+  +String png
+  +String borderCrop
+  +String artCrop
+  +String large
+  +String normal
+  +String small
+  +Map<String, dynamic> toJson()
+}
+
+class "placeholder_name::model::responses::response.dart::Response" {
+  +Status status
+  +T? data
+  +String? message
+  +String toString()
+}
+
+"placeholder_name::model::responses::response.dart::Response" o-- "placeholder_name::model::responses::response.dart::Status"
+
+class "placeholder_name::model::responses::response.dart::Status" {
+  +int index
+  {static} +List<Status> values
+  {static} +Status initial
+  {static} +Status loading
+  {static} +Status completed
+  {static} +Status error
+}
+
+"placeholder_name::model::responses::response.dart::Status" o-- "placeholder_name::model::responses::response.dart::Status"
+
+class "placeholder_name::model::services::scryfall_service.dart::ScryfallService" {
+  +Future<dynamic> getResponse()
+  +dynamic returnResponse()
+}
+
+class "placeholder_name::view::screens::card_search_screen.dart::CardSearchScreen" {
+  +MainNavigationScreenState parent
+  +CardSearchScreenState createState()
+}
+
+"placeholder_name::view::screens::card_search_screen.dart::CardSearchScreen" o-- "placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState"
+
+class "placeholder_name::view::screens::card_search_screen.dart::CardSearchScreenState" {
+  +RestorableTextEditingController inputController
+  +String? restorationId
+  +bool wantKeepAlive
+  -Widget _handleApiResponse()
+  -AppBar _buildAppBar()
+  +void submitSearch()
+  +BoxShadow buildBoxShadow()
+  -Widget _styledFloatingButton()
+  +Widget build()
+  +void restoreState()
+}
+
+class "placeholder_name::view::screens::decks_list_screen.dart::DecksListScreen" {
+  +State<StatefulWidget> createState()
+}
+
+
+class "placeholder_name::view::screens::decks_list_screen.dart::_DecksListScreenState" {
+  +bool wantKeepAlive
+  +Widget build()
+  -Widget _styledFloatingButton()
+  -Widget _deckListWidget()
+}
+
+class "placeholder_name::view::screens::deck_list_options_screen.dart::DeckListOptionScreen" {
+  +Deck? deck
+  +State<StatefulWidget> createState()
+}
+
+"placeholder_name::view::screens::deck_list_options_screen.dart::DeckListOptionScreen" o-- "placeholder_name::model::deck.dart::Deck"
+
+class "placeholder_name::view::screens::deck_list_options_screen.dart::_DeckListOptionScreenState" {
+  -TextEditingController _nameTextEditingController
+  -TextEditingController _imageTextEditingController
+  +void initState()
+  -Widget _styledFloatingButton()
+  -List<Widget> _buildFormatSelectionButtons()
+  +Widget build()
+  -InputDecoration _buildInputDecoration()
+}
+
+class "placeholder_name::view::screens::deck_statistics_screen.dart::DeckStatisticsScreen" {
+  +MainNavigationScreenState parent
+  +State<StatefulWidget> createState()
+}
+
+"placeholder_name::view::screens::deck_statistics_screen.dart::DeckStatisticsScreen" o-- "placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState"
+
+class "placeholder_name::view::screens::deck_statistics_screen.dart::_DeckStatisticsScreenState" {
+  +bool wantKeepAlive
+  +Widget build()
+}
+
+class "placeholder_name::view::screens::deck_view_screen.dart::DeckViewScreen" {
+  +MainNavigationScreenState parent
+  +State<StatefulWidget> createState()
+}
+
+"placeholder_name::view::screens::deck_view_screen.dart::DeckViewScreen" o-- "placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState"
+
+class "placeholder_name::view::screens::deck_view_screen.dart::_DeckViewScreenState" {
+  +bool wantKeepAlive
+  +Widget build()
+  -AppBar _buildAppBar()
+  -Widget _styledFloatingButton()
+  -Widget _handleDeckList()
+}
+
+class "placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreen" {
+  +State<StatefulWidget> createState()
+}
+
+class "placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState" {
+  +int firstScreen
+  +int lastScreen
+  -PageController _controller
+  +DecksListScreen decksListScreen
+  +CardSearchScreen cardSearchScreen
+  +DeckViewScreen deckViewScreen
+  +DeckStatisticsScreen deckStatisticsScreen
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState" o-- "placeholder_name::view::screens::decks_list_screen.dart::DecksListScreen"
+"placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState" o-- "placeholder_name::view::screens::card_search_screen.dart::CardSearchScreen"
+"placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState" o-- "placeholder_name::view::screens::deck_view_screen.dart::DeckViewScreen"
+"placeholder_name::view::screens::main_navigation_screen.dart::MainNavigationScreenState" o-- "placeholder_name::view::screens::deck_statistics_screen.dart::DeckStatisticsScreen"
+
+class "placeholder_name::view::widgets::card_list_widget.dart::CardListWidget" {
+  -List<MTGCard> _cardList
+  -String _viewModel
+  +CardListWidgetState createState()
+}
+
+class "placeholder_name::view::widgets::card_list_widget.dart::CardListWidgetState" {
+  -Widget _buildCardItem()
+  +Widget build()
+}
+
+class "placeholder_name::view::widgets::CategoryIconText.dart::CategoryIconText" {
+  +IconData icon
+  +String text
+  +Widget build()
+}
+
+
+class "placeholder_name::view::widgets::deck_edit_preview_card.dart::DeckEditPreviewCard" {
+  +Widget build()
+}
+
+class "placeholder_name::view::widgets::deck_list_widget.dart::DeckListWidget" {
+  +Widget build()
+}
+
+class "placeholder_name::view::widgets::deck_preview_card.dart::DeckPreviewCard" {
+  +Function selected
+  +Deck deck
+  +State<DeckPreviewCard> createState()
+}
+
+"placeholder_name::view::widgets::deck_preview_card.dart::DeckPreviewCard" o-- "placeholder_name::model::deck.dart::Deck"
+
+class "placeholder_name::view::widgets::deck_preview_card.dart::_DeckPreviewCardState" {
+  +Widget build()
+}
+
+class "placeholder_name::view::widgets::mana_symbol_button.dart::ManaSymbolButton" {
+  +String asset
+  +void Function() onPressed
+  +bool isActive
+  +Widget build()
+}
+
+class "placeholder_name::view::widgets::styled_box_shadow.dart::StyledBoxShadow" {
+  {static} +BoxShadow build()
+}
+
+class "placeholder_name::view::widgets::styled_text_field.dart::StyledTextField" {
+  +RestorableTextEditingController inputController
+  +dynamic Function(String) submitSearch
+  +Widget build()
+  -InputDecoration _buildInputDecoration()
+}
+
+class "placeholder_name::view_model::card_view_model.dart::CardViewModel" {
+  -Response<dynamic> _apiResponse
+  +List<MTGCard> selectedCards
+  +Response<dynamic> response
+  +List<MTGCard> selected
+  +Future<void> fetchCardData()
+  +Future<void> updateSelectedCards()
+  +Future<void> removeCards()
+}
+
+"placeholder_name::view_model::card_view_model.dart::CardViewModel" o-- "placeholder_name::model::responses::response.dart::Response<dynamic>"
+
+class "placeholder_name::view_model::deck_list_options_view_model.dart::DeckListOptionsViewModel" {
+  -DeckRepository _deckRepository
+  +List<Deck> decks
+  +DeckFormat? deckFormat
+  +String? name
+  +String? image
+  +bool isWhite
+  +bool isBlue
+  +bool isBlack
+  +bool isRed
+  +bool isGreen
+  +String? csv
+  +void updateDeckList()
+  +void loadValuesFromExistingDeck()
+  +Future<bool> updateAsExistingDeck()
+  +Future<bool> updateAsNewDeck()
+  +bool areFieldsValid()
+  +void toggledWhite()
+  +void toggledBlue()
+  +void toggledBlack()
+  +void toggledRed()
+  +void toggledGreen()
+  +void changeFormat()
+  +void changeName()
+  +void changeImageFromQuery()
+  +void cleanTemporaryDeckValues()
+  +void saveDeck()
+  +Deck deckFactory()
+}
+
+"placeholder_name::view_model::deck_list_options_view_model.dart::DeckListOptionsViewModel" o-- "placeholder_name::model::deck_repository.dart::DeckRepository"
+"placeholder_name::view_model::deck_list_options_view_model.dart::DeckListOptionsViewModel" o-- "placeholder_name::model::deck.dart::DeckFormat"
+
+class "placeholder_name::view_model::deck_list_options_view_model.dart::MTGColors" {
+  +int index
+  {static} +List<MTGColors> values
+  {static} +MTGColors white
+}
+
+"placeholder_name::view_model::deck_list_options_view_model.dart::MTGColors" o-- "placeholder_name::view_model::deck_list_options_view_model.dart::MTGColors"
+
+class "placeholder_name::view_model::deck_view_model.dart::DeckViewModel" {
+  +DeckRepository deckRepository
+  +List<MTGCard> selectedCards
+  -Deck? _selectedDeck
+  +Deck? selectedDeck
+  +List<MTGCard> selected
+  +void addCardsToSelectedDeck()
+  +Future<void> removeCardsFromSelectedDeck()
+  +Future<void> updateSelectedCards()
+}
+
+"placeholder_name::view_model::deck_view_model.dart::DeckViewModel" o-- "placeholder_name::model::deck_repository.dart::DeckRepository"
+"placeholder_name::view_model::deck_view_model.dart::DeckViewModel" o-- "placeholder_name::model::deck.dart::Deck"
+
+
+@enduml
